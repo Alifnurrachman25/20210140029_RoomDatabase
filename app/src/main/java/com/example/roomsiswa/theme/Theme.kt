@@ -1,4 +1,4 @@
-package com.example.roomsiswa.ui.theme
+package com.example.roomsiswa.theme
 
 import android.app.Activity
 import android.os.Build
