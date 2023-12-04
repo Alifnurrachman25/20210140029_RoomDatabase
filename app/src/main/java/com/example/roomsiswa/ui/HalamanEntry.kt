@@ -1,16 +1,21 @@
 package com.example.roomsiswa.ui
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.example.roomsiswa.R
 import com.example.roomsiswa.model.EntryViewModel
@@ -70,5 +75,32 @@ fun EntrySiswaBody(
     onSaveClick: () -> Unit,
     modifier: Modifier
 ) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_large)),
+        modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium))
+        ) {
 
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FormInputSiswa(
+    detailSiswa: DetailSiswa,
+    modifier: Modifier = Modifier,
+    onValueChange: (DetailSiswa) -> Unit = {},
+    enabled: Boolean = true
+){
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
+    ) {
+        OutlinedTextField(value = detailSiswa.nama,
+            onValueChange = {onValueChange(detailSiswa.copy(nama = it))},
+            label = { Text(stringResource(id = R.string.nama))},
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
+            singleLine = true
+        )
+    }
 }
