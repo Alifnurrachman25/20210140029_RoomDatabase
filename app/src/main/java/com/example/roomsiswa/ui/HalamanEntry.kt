@@ -11,11 +11,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import com.example.roomsiswa.R
 import com.example.roomsiswa.model.EntryViewModel
 import com.example.roomsiswa.model.PenyediaViewModel
 import com.example.roomsiswa.navigasi.DestinasiNavigasi
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.roomsiswa.model.DetailSiswa
+import com.example.roomsiswa.model.UIStateSiswa
+import com.example.roomsiswa.navigasi.SiswaTopAppBar
+import kotlinx.coroutines.launch
 
 object DestinasiEntry : DestinasiNavigasi {
     override val route = "item_entry"
@@ -34,10 +39,22 @@ fun EntrySiswaScreen(
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-
+            SiswaTopAppBar(
+                title = stringResource(DestinasiEntry.titleRes),
+                canNavigateBack = true,
+                scrollBehavior = scrollBehavior
+            )
         }
     ) { innerpadding ->
         EntrySiswaBody(
+            uiStateSiswa = viewModel.uiStateSiswa,
+            onSiswaValueChange = viewModel::updateUiState,
+            onSaveClick = {
+                coroutineScope.launch { 
+                    viewModel.saveSiswa()
+                    navigateBack()
+                }
+            },
             modifier = Modifier
                 .padding(innerpadding)
                 .verticalScroll(rememberScrollState())
@@ -48,7 +65,10 @@ fun EntrySiswaScreen(
 
 @Composable
 fun EntrySiswaBody(
+    uiStateSiswa: UIStateSiswa,
+    onSiswaValueChange: (DetailSiswa) -> Unit,
+    onSaveClick: () -> Unit,
     modifier: Modifier
-){
+) {
 
 }
