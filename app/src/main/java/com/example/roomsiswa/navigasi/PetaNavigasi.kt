@@ -12,12 +12,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.roomsiswa.R
 import com.example.roomsiswa.ui.DestinasiEntry
 import com.example.roomsiswa.ui.DestinasiHome
+import com.example.roomsiswa.ui.DetailsDestination
+import com.example.roomsiswa.ui.DetailsScreen
 import com.example.roomsiswa.ui.EntrySiswaScreen
 import com.example.roomsiswa.ui.HomeScreen
 
@@ -57,14 +61,42 @@ fun HostNavigasi(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
-    NavHost(navController = navController, startDestination = DestinasiHome.route, modifier = Modifier)
+    NavHost(
+        navController = navController,
+        startDestination = DestinasiHome.route,
+        modifier = Modifier
+    )
     {
-        composable(DestinasiHome.route){
-            HomeScreen(navigateToItemEntry = {navController.navigate(DestinasiEntry.route)},
-                )
+        composable(DestinasiHome.route) {
+            HomeScreen(
+                navigateToItemEntry = { navController.navigate(DestinasiEntry.route) },
+                onDetailClick = {
+                    navController.navigate("${DetailsDestination.route}/$it")
+                }
+            )
         }
-        composable(DestinasiEntry.route){
-            EntrySiswaScreen(navigateBack = {navController.popBackStack()})
+        composable(DestinasiEntry.route) {
+            EntrySiswaScreen(navigateBack = { navController.popBackStack() })
         }
+        composable(
+            DetailsDestination.routeWithArgs,
+            arguments = listOf(navArgument(DetailsDestination.siswaIdArg) {
+                type = NavType.IntType
+            })
+        ) {
+            DetailsScreen(
+                navigateToEditItem = {
+                    //navController.navigate("${ItemEditDestination.route}/$it")
+                },
+                navigateBack = { navController.popBackStack() },
+            )
+        }
+
+        /*composable(
+            itemEditDestination.routeWithArgs,
+            arguments = listOf(navArgument(
+                itemEditDestination.itemIdArg
+            ))
+        )*/
     }
 }
