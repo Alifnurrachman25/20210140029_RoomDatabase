@@ -24,6 +24,8 @@ import com.example.roomsiswa.ui.DetailsDestination
 import com.example.roomsiswa.ui.DetailsScreen
 import com.example.roomsiswa.ui.EntrySiswaScreen
 import com.example.roomsiswa.ui.HomeScreen
+import com.example.roomsiswa.ui.ItemEditDestination
+import com.example.roomsiswa.ui.ItemEditScreen
 
 @Composable
 fun SiswaApp(navController: NavHostController = rememberNavController()) {
@@ -86,17 +88,19 @@ fun HostNavigasi(
         ) {
             DetailsScreen(
                 navigateToEditItem = {
-                    //navController.navigate("${ItemEditDestination.route}/$it")
+                    navController.navigate("${ItemEditDestination.route}/$it")
                 },
                 navigateBack = { navController.popBackStack() },
             )
         }
 
-        /*composable(
-            itemEditDestination.routeWithArgs,
-            arguments = listOf(navArgument(
-                itemEditDestination.itemIdArg
-            ))
-        )*/
+        composable(
+            ItemEditDestination.routeWithArgs,
+            arguments = listOf(navArgument(ItemEditDestination.itemIdArg){
+                type = NavType.IntType
+            })
+        ){
+            ItemEditScreen(navigateBack = { navController.popBackStack() }, onNavigateUp = { navController.navigateUp() })
+        }
     }
 }
